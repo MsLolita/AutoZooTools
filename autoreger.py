@@ -41,12 +41,12 @@ class AutoReger:
         return shift_file(self.emails_path), shift_file(self.wallets_path), shift_file(self.proxies_path)
 
     def start(self):
-        referral_link = "https://form.zootools.co/go/bLFJhrGfkOoEQgt3I3LR?ref=oshDiqOc2PLuLpexCzll"  # input("Referral link(https://form.zootools.co/go/bLFJhrGfkOoEQgt3I3LR?ref=oshDiqOc2PLuLpexCzll): ")
+        referral_link = input("Referral link(https://form.zootools.co/go/bLFJhrGfkOoEQgt3I3LR?ref=oshDiqOc2PLuLpexCzll): ")
 
         ZooTools.event_id = referral_link.split('/')[-1].split('?')[0]
         ZooTools.referral = referral_link.split('?ref=')[-1]
 
-        threads = 3  # int(input("Enter amount of threads: "))
+        threads = int(input("Enter amount of threads: "))
 
         accounts = self.get_accounts()
 

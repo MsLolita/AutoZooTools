@@ -1,6 +1,8 @@
 from concurrent.futures import ThreadPoolExecutor
 
 from utils import shift_file, logger
+from utils.auto_generate.emails import generate_random_emails
+from utils.auto_generate.wallets import generate_random_wallets
 from utils.file_to_list import file_to_list
 from zootools import ZooTools
 
@@ -19,12 +21,12 @@ class AutoReger:
         proxies = file_to_list(self.proxies_path)
 
         if not emails:
-            logger.warning(f"No emails in path {self.emails_path}!")
-            return
+            logger.info(f"Generated random emails!")
+            emails = generate_random_emails(5)
 
         if not wallets:
-            logger.warning(f"No wallets in path {self.wallets_path}!")
-            return
+            logger.info(f"Generated random wallets!")
+            wallets = [wallet[0] for wallet in generate_random_wallets(len(emails))]
 
         accounts = []
 
@@ -49,10 +51,7 @@ class AutoReger:
         threads = int(input("Enter amount of threads: "))
 
         accounts = self.get_accounts()
-
-        if not accounts:
-            return
-
+        print(accounts)
         with ThreadPoolExecutor(max_workers=threads) as executor:
             executor.map(self.register, accounts)
 

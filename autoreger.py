@@ -22,7 +22,7 @@ class AutoReger:
 
         if not emails:
             logger.info(f"Generated random emails!")
-            emails = generate_random_emails(5)
+            emails = generate_random_emails(100)
 
         if not wallets:
             logger.info(f"Generated random wallets!")
@@ -51,7 +51,7 @@ class AutoReger:
         threads = int(input("Enter amount of threads: "))
 
         accounts = self.get_accounts()
-        print(accounts)
+
         with ThreadPoolExecutor(max_workers=threads) as executor:
             executor.map(self.register, accounts)
 

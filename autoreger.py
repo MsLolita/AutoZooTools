@@ -32,10 +32,10 @@ class AutoReger:
 
         if len(emails) < len(wallets):
             for i in range(len(emails)):
-                accounts.append((emails[i], wallets[i], proxies[i] if proxies else None))
+                accounts.append((emails[i], wallets[i], proxies[i] if len(proxies) > i else None))
         else:
             for i in range(len(wallets)):
-                accounts.append((emails[i], wallets[i], proxies[i] if proxies else None))
+                accounts.append((emails[i], wallets[i], proxies[i] if len(proxies) > i else None))
 
         return accounts
 
@@ -63,9 +63,10 @@ class AutoReger:
     def register(self, account: tuple):
         zoo_tools = ZooTools(*account)
         is_ok = False
+        res_msg: str = ""
 
         try:
-            is_ok = zoo_tools.enter_raffle()
+            is_ok, res_msg = zoo_tools.enter_raffle()
         except Exception as e:
             logger.error(f"Error {e}")
 
@@ -75,7 +76,7 @@ class AutoReger:
             zoo_tools.logs()
             self.success += 1
         else:
-            zoo_tools.logs_fail()
+            zoo_tools.logs_fail(res_msg)
 
     def check_files_empty(self):
         # check if emails in not empty

@@ -55,17 +55,17 @@ class ZooTools:
 
         response = self.session.post(url, json=json_data)
 
-        return response.ok
+        return response.ok, response.text
 
     def logs(self):
-        msg = f"{self.email}|{self.address}|{self.proxy}"
-        str_to_file(f"data\\logs\\success.txt", msg)
+        file_msg = f"{self.email}|{self.address}|{self.proxy}"
+        str_to_file(f"data\\logs\\success.txt", file_msg)
         logger.success(f"Register {self.email}")
 
-    def logs_fail(self):
-        msg = f"{self.email}|{self.address}|{self.proxy}"
-        str_to_file(f"data\\logs\\failed.txt", msg)
-        logger.error(f"Failed {msg}")
+    def logs_fail(self, msg: str = ""):
+        file_msg = f"{self.email}|{self.address}|{self.proxy}"
+        str_to_file(f"data\\logs\\failed.txt", file_msg)
+        logger.error(f"Failed {self.email} {msg}")
 
     @staticmethod
     def __bypass_turnstile_captcha():
@@ -76,5 +76,10 @@ class ZooTools:
 
         solver.set_action("login")
         # solver.set_soft_id(0)
+        token = solver.solve_and_return_solution()
 
-        return solver.solve_and_return_solution()
+        if not token:
+            logger.error("Failed to solve captcha! Please put your API key in data/captcha/__init__.py")
+            exit()
+
+        return token

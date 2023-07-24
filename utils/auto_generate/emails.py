@@ -21,7 +21,3 @@ def write_emails_to_file(filename, num_emails=10):
         for _ in range(num_emails):
             email = generate_random_email()
             file.write(email + '\n')
-
-
-# # Example usage to generate 10 random email addresses and write to a file
-# write_emails_to_file('../../data/inputs/emails.txt', num_emails=1000)
